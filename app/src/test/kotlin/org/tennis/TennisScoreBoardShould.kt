@@ -14,4 +14,13 @@ class TennisScoreBoardShould {
 
         assertThat(board.showResult()).isEqualTo("")
     }
+
+    @Test
+    fun `show the message "love-All" when the score is 0-0`() {
+        val board = TennisScoreBoard()
+
+        board.setScore(0,0)
+
+        assertThat(board.showResult()).isEqualTo("Love-All")
+    }
 }

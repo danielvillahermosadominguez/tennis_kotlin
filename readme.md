@@ -22,7 +22,21 @@ Concepts:
 - Advantage = Deuce +1 for the lead player
 - output = Report the score depending of the inputs
 - We think it is better to use as input the score
-- 
+- The output is the message + player name or "All" if it is for alls
+- Examples:
+  - Empty => before start the game
+  - Love-All => when the score is 0-0
+  - Fifteen-All => when the score is 1-1
+  - Thirty-All => when the score is 2-2
+  - Deuce => when the score is 3-3
+  - Advantage "player 1" => when the score is 4-3, 5-4
+  - Advantage "player 2" => when the score is 3-4, 4-5
+  - Win for "player 1" => when the score is 4-2, 4-1, 5-3
+  - Win for "player 2" => in the oposite situation
+  - in other case show:
+    "player 1" - [score] - Love/Fifteen/Thirty/Forty
+    "player 2" - [score] - Love/Fifteen/Thirty/Forty
+    - depending of the score
 # Some useful notes about the implementation with Kotlin
 
 ## The first gradle empty project
