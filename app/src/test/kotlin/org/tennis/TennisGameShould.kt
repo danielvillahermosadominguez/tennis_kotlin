@@ -9,16 +9,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
+import org.tennis.game.MessageBoard
+import org.tennis.game.Player
+import org.tennis.game.Score
+import org.tennis.game.TennisGame
 
 class TennisGameShould {
-    private companion object {
-        const val LOVE = 0
-        const val FIFTEEN = 1
-        const val THIRTY = 2
-        const val DEUCE = 3
-    }
 
-    private var expectedMessage: MessageBoard? = null;
     private var game: TennisGame? = null;
     private var player1: Player? = null;
     private var player2: Player? = null;
@@ -26,50 +23,48 @@ class TennisGameShould {
 
     @BeforeEach
     fun beforeEach() {
-        this.player1 = Player.of("John", Score(0))
-        this.player2 = Player.of("Mary", Score(0))
-        this.expectedMessage = MessageBoard.of()
+        this.player1 = Player.of("John", Score())
+        this.player2 = Player.of("Mary", Score())
         this.messageBoard = MessageBoard.of()
         this.game = TennisGame(player1!!, player2!!, this.messageBoard!!)
     }
 
     @Test
     fun `show the message "love-All" when the score is 0-0`() {
-        expectedMessage?.showSameScoreForAll(Score(LOVE))
+        val expectedMessage: String = "Love-All"
 
-        assertEqual(messageBoard!!, expectedMessage)
+        assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
     }
 
     @Test
     fun `show the message Fifteen-All when the score is 1-1`() {
-        expectedMessage?.showSameScoreForAll(Score(FIFTEEN))
+        val expectedMessage: String = "Fifteen-All"
         setScore(1, 1)
 
         this.game?.updateResults()
 
-        assertEqual(messageBoard!!, expectedMessage)
+        assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
     }
 
     @Test
     fun `show the message Thirty-All when the score is 2-2`() {
-        expectedMessage?.showSameScoreForAll(Score(THIRTY))
+        val expectedMessage: String = "Thirty-All"
         setScore(2, 2)
 
         this.game?.updateResults()
 
-        assertEqual(messageBoard!!, expectedMessage)
+        assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
     }
-
 
     @ParameterizedTest
     @ValueSource(ints = [3,4,5,6,7,8,9,10])
     fun `show the message Deuce when the score is equal and more or equal 3`(score:Int) {
-        expectedMessage?.showSameScoreForAll(Score(DEUCE))
+        val expectedMessage: String = "Deuce"
         setScore(score, score)
 
         game?.updateResults()
 
-        assertEqual(messageBoard!!, expectedMessage)
+        assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
     }
 
     @ParameterizedTest
@@ -86,13 +81,13 @@ class TennisGameShould {
         scorePlayer2: Int,
         espectedAdvancedPlayer: String
     ) {
-        var advantagePlayer = Player.of(espectedAdvancedPlayer, Score())
+        val expectedMessage: String = "Advantage for the player '" + espectedAdvancedPlayer + "'"
+
         setScore(scorePlayer1, scorePlayer2)
 
         game?.updateResults()
 
-        expectedMessage?.showAdvantageFor(advantagePlayer)
-        assertEqual(messageBoard!!, expectedMessage)
+        assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
     }
 
     @ParameterizedTest
@@ -114,13 +109,12 @@ class TennisGameShould {
         scorePlayer2: Int,
         expectedWinner: String
     ) {
-        var winner = Player.of(expectedWinner, Score())
+        val expectedMessage: String = "Win for player '" + expectedWinner + "'"
         setScore(scorePlayer1, scorePlayer2)
 
         game?.updateResults()
 
-        expectedMessage?.showTheWinner(winner)
-        assertEqual(messageBoard!!, expectedMessage)
+        assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
     }
 
     @ParameterizedTest
@@ -149,10 +143,6 @@ class TennisGameShould {
         game?.updateResults()
 
         assertThat(messageBoard.toString()).isEqualTo(expectedMessage)
-    }
-
-    private fun assertEqual(boardMessage: MessageBoard?, emptyMessage: MessageBoard?) {
-        assertThat(boardMessage.toString()).isEqualTo(emptyMessage.toString())
     }
 
     private fun setScore(player1Wins: Int, player2Wins: Int) {

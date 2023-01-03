@@ -12,31 +12,14 @@ You can read more about Tennis scores on wikipedia which is summarized below:
 # Acknowledgements
 This kata is described on cyber-dojo.org
 
-# Reminders and Notes during the Kata
-Concepts:
-- Two players
-- A Game
-- Scores (0 - Love, 1-Fifteen, 2-Thirty, 3-Forty)
-- 4 = Game (Player x won)
-- Equals => Deuce
-- Advantage = Deuce +1 for the lead player
-- output = Report the score depending of the inputs
-- We think it is better to use as input the score
-- The output is the message + player name or "All" if it is for alls
-- Examples:
-  - Empty => before start the game
-  - Love-All => when the score is 0-0
-  - Fifteen-All => when the score is 1-1
-  - Thirty-All => when the score is 2-2
-  - Deuce => when the score is 3-3
-  - Advantage "player 1" => when the score is 4-3, 5-4
-  - Advantage "player 2" => when the score is 3-4, 4-5
-  - Win for "player 1" => when the score is 4-2, 4-1, 5-3
-  - Win for "player 2" => in the oposite situation
-  - in other case show:
-    "player 1" - [score] - Love/Fifteen/Thirty/Forty
-    "player 2" - [score] - Love/Fifteen/Thirty/Forty
-    - depending of the score
+# Some assumtions for this implementation
+
+- The approach used in this kata has been inside-out and classical TDD
+- We prefer to inject objects than interfaces. We don't find a motive to use interfaces
+- Our system under test is the TennisGame and the rest of objects that are used. We use an approach of classic TDD,
+  so we think it is better to use real objects than stubs or mocks in this cases
+- The result is a set of little component tests which test the system under test : org.tennis.game
+
 # Some useful notes about the implementation with Kotlin
 
 ## The first gradle empty project

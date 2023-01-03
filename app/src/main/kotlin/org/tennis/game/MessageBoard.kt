@@ -1,4 +1,4 @@
-package org.tennis
+package org.tennis.game
 
 class MessageBoard {
     private var value: String = String();
@@ -11,7 +11,7 @@ class MessageBoard {
         }
     }
 
-    fun showSameScoreForAll(score:Score) {
+    fun showSameScoreForAll(score: Score) {
         this.value = scoreToText(score)
 
         if (!score.isInTheWinZone()) {
@@ -28,7 +28,7 @@ class MessageBoard {
         this.value = "Win for player '" + name + "'"
     }
 
-    fun showTheScoresFor(player1:Player, player2:Player) {
+    fun showTheScoresFor(player1: Player, player2: Player) {
         val scorePlayer1 = player1.getScore()
         val scorePlayer2 = player2.getScore()
         this.value = """

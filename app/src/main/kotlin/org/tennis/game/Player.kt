@@ -1,10 +1,10 @@
-package org.tennis
+package org.tennis.game
 
-class Player private constructor(val _name:String, var _score:Score) {
+class Player private constructor(val _name:String, var _score: Score) {
     private val name: String = _name
     private var score: Score = _score
 
-    fun beterScoreThan(player: Player): Boolean {
+    fun betterScoreThan(player: Player): Boolean {
         return score.getValue() > player.getScore().getValue()
     }
 

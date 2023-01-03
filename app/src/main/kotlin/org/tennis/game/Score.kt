@@ -1,6 +1,4 @@
-package org.tennis
-
-import kotlin.math.abs
+package org.tennis.game
 
 class Score (value:Int = 0) {
     fun getValue(): Int {

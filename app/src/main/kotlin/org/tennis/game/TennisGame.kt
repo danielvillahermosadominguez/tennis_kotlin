@@ -1,4 +1,4 @@
-package org.tennis
+package org.tennis.game
 
 
 class TennisGame(player1: Player, player2: Player, messageBoard: MessageBoard) {
@@ -54,7 +54,7 @@ class TennisGame(player1: Player, player2: Player, messageBoard: MessageBoard) {
     }
 
     private fun showAdvantageForTheBestPlayer() {
-        if (player2.beterScoreThan(player1)) {
+        if (player2.betterScoreThan(player1)) {
             messageBoard.showAdvantageFor(player2)
         } else {
             messageBoard.showAdvantageFor(player1)
