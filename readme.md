@@ -12,6 +12,17 @@ You can read more about Tennis scores on wikipedia which is summarized below:
 # Acknowledgements
 This kata is described on cyber-dojo.org
 
+# Reminders and Notes during the Kata
+Concepts:
+- Two players
+- A Game
+- Scores (0 - Love, 1-Fifteen, 2-Thirty, 3-Forty)
+- 4 = Game (Player x won)
+- Equals => Deuce
+- Advantage = Deuce +1 for the lead player
+- output = Report the score depending of the inputs
+- We think it is better to use as input the score
+- 
 # Some useful notes about the implementation with Kotlin
 
 ## The first gradle empty project
