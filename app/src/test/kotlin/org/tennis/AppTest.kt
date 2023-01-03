@@ -3,12 +3,29 @@
  */
 package org.tennis
 
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class AppTest {
-    @Test fun appHasAGreeting() {
+    @Test fun `greeting`() {
         val classUnderTest = App()
         assertNotNull(classUnderTest.greeting, "app should have a greeting")
+    }
+    @Test fun `greeting with assertJ`() {
+        val classUnderTest = App()
+
+        assertThat(classUnderTest.greeting).isEqualTo("Hello World!")
+    }
+
+    @Test fun `greeting with Mockk`() {
+        val classUnderTest = mockk<App>()
+        every {classUnderTest.greeting } returns "Hello World!"
+        val result = classUnderTest.greeting
+        verify { classUnderTest.greeting }
+        assertThat(result).isEqualTo("Hello World!")
     }
 }

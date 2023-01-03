@@ -29,6 +29,18 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.0.1-jre'
+
+    // https://mvnrepository.com/artifact/org.assertj/assertj-core
+    testImplementation "org.assertj:assertj-core:3.23.1"
+
+    testImplementation "io.mockk:mockk:1.12.4"
+}
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+        events "started", "skipped", "passed", "failed"
+        showStandardStreams true
+    }
 }
 
 testing {
