@@ -3,9 +3,11 @@
  */
 package org.tennis
 
+import com.google.common.primitives.Ints
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class TennisScoreBoardShould {
     @Test
@@ -22,5 +24,33 @@ class TennisScoreBoardShould {
         board.setScore(0,0)
 
         assertThat(board.showResult()).isEqualTo("Love-All")
+    }
+
+    @Test
+    fun `show the message Fifteen-All when the score is 1-1`() {
+        val board = TennisScoreBoard()
+
+        board.setScore(1,1)
+
+        assertThat(board.showResult()).isEqualTo("Fifteen-All")
+    }
+
+    @Test
+    fun `show the message Thirty-All when the score is 2-2`() {
+        val board = TennisScoreBoard()
+
+        board.setScore(2,2)
+
+        assertThat(board.showResult()).isEqualTo("Thirty-All")
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [3,4,5,6,7,8,9,10])
+    fun `show the message Deuce when the score is equal and more or equal 3`(score:Int) {
+        val board = TennisScoreBoard()
+
+        board.setScore(score,score)
+
+        assertThat(board.showResult()).isEqualTo("Deuce")
     }
 }
