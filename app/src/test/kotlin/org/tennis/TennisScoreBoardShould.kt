@@ -4,70 +4,121 @@
 package org.tennis
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 
 class TennisScoreBoardShould {
+
+    private var expectedMessage: MessageBoard? = null;
+    private var board: TennisScoreBoard? = null;
+
+    @BeforeEach
+    fun beforeEach() {
+        this.expectedMessage = MessageBoard.of()
+        this.board = TennisScoreBoard("John", "Mary")
+    }
+
     @Test
     fun `the board empty when the game has started`() {
-        val board = TennisScoreBoard("John", "Mary")
+        val boardMessage = board?.showResult()
+        val emptyMessage = expectedMessage
 
-        assertThat(board.showResult()).isEqualTo("")
+        assertEqual(boardMessage, emptyMessage)
     }
 
     @Test
     fun `show the message "love-All" when the score is 0-0`() {
-        val board = TennisScoreBoard("John", "Mary")
+        expectedMessage?.loveAll()
 
-        board.setScore(0,0)
+        board?.setScore(0, 0)
 
-        assertThat(board.showResult()).isEqualTo("Love-All")
+        val boardMessage = board?.showResult()
+        assertEqual(boardMessage, expectedMessage)
     }
 
     @Test
     fun `show the message Fifteen-All when the score is 1-1`() {
-        val board = TennisScoreBoard("John", "Mary")
+        expectedMessage?.fifteenAll()
 
-        board.setScore(1,1)
+        board?.setScore(1, 1)
 
-        assertThat(board.showResult()).isEqualTo("Fifteen-All")
+        val boardMessage = board?.showResult()
+        assertEqual(boardMessage, expectedMessage)
     }
 
     @Test
     fun `show the message Thirty-All when the score is 2-2`() {
-        val board = TennisScoreBoard("John", "Mary")
+        expectedMessage?.thirtyAll()
 
-        board.setScore(2,2)
+        this.board?.setScore(2, 2)
 
-        assertThat(board.showResult()).isEqualTo("Thirty-All")
+        val boardMessage = this.board?.showResult()
+        assertEqual(boardMessage, expectedMessage)
     }
 
     @ParameterizedTest
     @ValueSource(ints = [3,4,5,6,7,8,9,10])
     fun `show the message Deuce when the score is equal and more or equal 3`(score:Int) {
-        val board = TennisScoreBoard("John", "Mary")
+        expectedMessage?.deuce()
 
-        board.setScore(score,score)
+        board?.setScore(score, score)
 
-        assertThat(board.showResult()).isEqualTo("Deuce")
+        val boardMessage = board?.showResult()
+        assertEqual(boardMessage, expectedMessage)
     }
 
     @ParameterizedTest
     @CsvSource(
-        "3,4,John,Mary,Mary",
-        "4,3,John,Mary,John",
-        "5,4,John,Mary,John",
-        "6,5,John,Mary,John",
-        "7,6,John,Mary,John",
-        "6,7,John,Mary,Mary"
+        "3,4,Mary",
+        "4,3,John",
+        "5,4,John",
+        "6,5,John",
+        "7,6,John",
+        "6,7,Mary"
     )
-    fun `show the advantage message for a player`(scorePlayer1:Int, scorePlayer2:Int,player1Name:String, player2Name:String, advantagePlayer:String) {
-        val board = TennisScoreBoard(player1Name, player2Name)
+    fun `show the advantage message for a player`(
+        scorePlayer1: Int,
+        scorePlayer2: Int,
+        advantagePlayer: String
+    ) {
+        board?.setScore(scorePlayer1, scorePlayer2)
 
-        board.setScore(scorePlayer1,scorePlayer2)
+        expectedMessage?.advantage(advantagePlayer)
+        val boardMessage = board?.showResult()
+        assertEqual(boardMessage, expectedMessage)
+    }
 
-        assertThat(board.showResult()).isEqualTo("Advantage for the player '"+ advantagePlayer+"'")
+    @ParameterizedTest
+    @CsvSource(
+        "1,4,Mary",
+        "2,4,Mary",
+        "3,5,Mary",
+        "4,6,Mary",
+        "5,7,Mary",
+        "4,1,John",
+        "4,2,John",
+        "5,3,John",
+        "6,4,John",
+        "7,5,John",
+    )
+
+    fun `show the win message for a player`(
+        scorePlayer1: Int,
+        scorePlayer2: Int,
+        winner: String
+    ) {
+
+        board?.setScore(scorePlayer1, scorePlayer2)
+
+        expectedMessage?.win(winner)
+        val boardMessage = board?.showResult()
+        assertEqual(boardMessage, expectedMessage)
+    }
+
+    private fun assertEqual(boardMessage: MessageBoard?, emptyMessage: MessageBoard?) {
+        assertThat(boardMessage.toString()).isEqualTo(emptyMessage.toString())
     }
 }
