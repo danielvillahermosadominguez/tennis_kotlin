@@ -3,23 +3,23 @@
  */
 package org.tennis
 
-import com.google.common.primitives.Ints
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 
 class TennisScoreBoardShould {
     @Test
     fun `the board empty when the game has started`() {
-        val board = TennisScoreBoard()
+        val board = TennisScoreBoard("John", "Mary")
 
         assertThat(board.showResult()).isEqualTo("")
     }
 
     @Test
     fun `show the message "love-All" when the score is 0-0`() {
-        val board = TennisScoreBoard()
+        val board = TennisScoreBoard("John", "Mary")
 
         board.setScore(0,0)
 
@@ -28,7 +28,7 @@ class TennisScoreBoardShould {
 
     @Test
     fun `show the message Fifteen-All when the score is 1-1`() {
-        val board = TennisScoreBoard()
+        val board = TennisScoreBoard("John", "Mary")
 
         board.setScore(1,1)
 
@@ -37,7 +37,7 @@ class TennisScoreBoardShould {
 
     @Test
     fun `show the message Thirty-All when the score is 2-2`() {
-        val board = TennisScoreBoard()
+        val board = TennisScoreBoard("John", "Mary")
 
         board.setScore(2,2)
 
@@ -47,10 +47,27 @@ class TennisScoreBoardShould {
     @ParameterizedTest
     @ValueSource(ints = [3,4,5,6,7,8,9,10])
     fun `show the message Deuce when the score is equal and more or equal 3`(score:Int) {
-        val board = TennisScoreBoard()
+        val board = TennisScoreBoard("John", "Mary")
 
         board.setScore(score,score)
 
         assertThat(board.showResult()).isEqualTo("Deuce")
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "3,4,John,Mary,Mary",
+        "4,3,John,Mary,John",
+        "5,4,John,Mary,John",
+        "6,5,John,Mary,John",
+        "7,6,John,Mary,John",
+        "6,7,John,Mary,Mary"
+    )
+    fun `show the advantage message for a player`(scorePlayer1:Int, scorePlayer2:Int,player1Name:String, player2Name:String, advantagePlayer:String) {
+        val board = TennisScoreBoard(player1Name, player2Name)
+
+        board.setScore(scorePlayer1,scorePlayer2)
+
+        assertThat(board.showResult()).isEqualTo("Advantage for the player '"+ advantagePlayer+"'")
     }
 }
