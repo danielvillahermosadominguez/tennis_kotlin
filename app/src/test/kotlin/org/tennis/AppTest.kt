@@ -7,11 +7,15 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import kotlin.test.Test
-import kotlin.test.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
+
 
 class AppTest {
-    @Test fun `greeting`() {
+    @Test
+    fun `greeting`() {
         val classUnderTest = App()
         assertNotNull(classUnderTest.greeting, "app should have a greeting")
     }
@@ -27,5 +31,13 @@ class AppTest {
         val result = classUnderTest.greeting
         verify { classUnderTest.greeting }
         assertThat(result).isEqualTo("Hello World!")
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["John", "Mary"])
+    fun `greeting with junit params`(name:String) {
+        val classUnderTest = App()
+
+        assertThat(classUnderTest.greeting + name ).isEqualTo("Hello World!" + name)
     }
 }

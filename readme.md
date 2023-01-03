@@ -52,8 +52,53 @@ Some of the tools we have chosen in this kata has been:
     testImplementation "org.assertj:assertj-core:3.23.1"
 
     testImplementation "io.mockk:mockk:1.12.4"
-    
-    testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
+
 ```
+## Configuring to use junit 5
+In the gradle file you need to include it
+``` 
+    //testImplementation "io.kotest:kotest-runner-junit5:5.3.2"
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+```
+
+NOTE:
+If you run the test by "gradle clean test" without the "jupiter engine" library (using intelliJ) you will see a message like:
+
+```
+    No test were found
+```
+You will need to change the build.gradle, using the useJUnitPlatform()
+```
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+        events "started", "skipped", "passed", "failed"
+        showStandardStreams true
+    }
+    useJUnitPlatform()
+}
+```
+And remove from the "useKotlingTest()" call. We really could remove all this
+code from the build.gradle
+
+```
+testing {
+    suites {
+        // Configure the built-in test suite
+        test {
+            // Use Kotlin Test test framework
+            useKotlinTest()
+        }
+    }
+}
+``` 
+
+Obviously, in your test class, you will need to change your imports with junit:
+``` java
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Test
+``` 
 
 
